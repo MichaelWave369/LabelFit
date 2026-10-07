@@ -35,6 +35,9 @@ jobs:
       - name: Test runtime ingredient matcher
         run: node tests/matcher.test.js
 
+      - name: Test evidence and provenance
+        run: node tests/evidence.test.js
+
       - name: Check JavaScript syntax
         shell: bash
         run: |
