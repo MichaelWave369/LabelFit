@@ -16,6 +16,9 @@
   var householdStatus = document.getElementById("household-status");
   var householdMembers = document.getElementById("household-members");
   var betterFitResults = document.getElementById("better-fit-results");
+  var demoBarcode = document.getElementById("demo-barcode");
+  var demoOcr = document.getElementById("demo-ocr");
+  var providerResult = document.getElementById("provider-result");
   if (!select || !panel || !why) return;
 
   LF.demo.profiles.forEach(function (p) {
@@ -96,6 +99,22 @@
     }).join("");
   }
 
+  function renderProvider(providerId, payload) {
+    if (!providerResult) return;
+    var p = profile();
+    var product = LF.input.capture(providerId, payload || {});
+    var result = LF.verdict.evaluate(product, p);
+    var observation = product.rawObservation || {};
+    providerResult.className = "provider-result " + klass(result.verdict);
+    providerResult.innerHTML =
+      '<div class="provider-meta"><strong>' + esc(observation.providerId || providerId) + '</strong>' +
+      '<span>' + esc(observation.authority || "EVIDENCE_ONLY") + ' · ' +
+      esc(observation.confidence || product.confidence) + '</span></div>' +
+      '<div class="provider-product"><strong>' + esc(product.name) + '</strong>' +
+      '<small>' + esc(result.primaryReason) + '</small></div>' +
+      '<b>' + esc(result.verdict) + '</b>';
+  }
+
   function renderPaste() {
     if (!paste || !pasteResult || !parsed) return;
     var p = profile();
@@ -116,6 +135,12 @@
     if (pasteResult && pasteResult.innerHTML) renderPaste();
   });
   if (pasteButton) pasteButton.addEventListener("click", renderPaste);
+  if (demoBarcode) demoBarcode.addEventListener("click", function () {
+    renderProvider("barcode.demo.v1", { code: "000000000401" });
+  });
+  if (demoOcr) demoOcr.addEventListener("click", function () {
+    renderProvider("ocr.demo.v1", { text: "Ingredients: Oats, rice milk, cinnamon" });
+  });
 
   select.value = LF.demo.profiles[0].id;
   render();
