@@ -74,6 +74,27 @@
       strength: "CONSERVATIVE UNCERTAINTY RULE",
       note: "A sodium-limit profile cannot be fully evaluated when sodium data is missing."
     },
+    "caffeine.limit": {
+      id: "basis.caffeine.limit.v1",
+      title: "Caffeine per-serving limit",
+      type: "profile_threshold",
+      strength: "USER-CONFIGURED THRESHOLD",
+      note: "Compares product caffeine with the profile's configured per-serving limit."
+    },
+    "caffeine.near_limit": {
+      id: "basis.caffeine.near_limit.v1",
+      title: "Caffeine near-limit caution",
+      type: "profile_threshold",
+      strength: "USER-CONFIGURED THRESHOLD",
+      note: "Surfaces a caution when caffeine reaches at least 75% of the configured per-serving limit."
+    },
+    "caffeine.missing": {
+      id: "basis.caffeine.missing.v1",
+      title: "Missing caffeine uncertainty rule",
+      type: "uncertainty_policy",
+      strength: "CONSERVATIVE UNCERTAINTY RULE",
+      note: "A caffeine-limit profile cannot be fully evaluated when caffeine data is missing."
+    },
     "avoid.flag": {
       id: "basis.avoid.flag.v1",
       title: "Profile avoid-list rule",
@@ -117,6 +138,7 @@
     if (ruleId === "allergy.missing") return "contains";
     if (ruleId.indexOf("sugar.") === 0) return "facts.added_sugar_g";
     if (ruleId.indexOf("sodium.") === 0) return "facts.sodium_mg";
+    if (ruleId.indexOf("caffeine.") === 0) return "facts.caffeine_mg";
     if (ruleId === "avoid.flag") return "flags";
     if (ruleId === "product.incomplete") return "completeness";
     return "product";
@@ -141,14 +163,16 @@
     var product = LF.normalize.product(rawProduct);
     return {
       schema: "labelfit.decision-receipt.v1",
-      engineVersion: "0.3",
+      engineVersion: "0.4",
       product: { id: product.id, name: product.name },
       profile: { id: profile.id || "unknown", name: profile.name || "Unknown" },
       verdict: result.verdict,
       confidence: result.confidence,
+      coverage: result.coverage || { evaluated: [], notEvaluated: [], complete: true },
       rules: (result.rules || []).map(function (rule) {
         var prov = provenanceForRule(product, rule);
         return {
+          moduleId: rule.moduleId || "legacy",
           ruleId: rule.ruleId,
           verdict: rule.verdict,
           fact: rule.fact,

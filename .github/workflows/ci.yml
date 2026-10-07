@@ -41,6 +41,9 @@ jobs:
       - name: Test household and Better Fit
         run: node tests/household.test.js
 
+      - name: Test modular rule engine
+        run: node tests/rules.test.js
+
       - name: Check JavaScript syntax
         shell: bash
         run: |
