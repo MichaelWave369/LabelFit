@@ -2,63 +2,63 @@
 
 [![LabelFit CI](https://github.com/MichaelWave369/LabelFit/actions/workflows/ci.yml/badge.svg)](https://github.com/MichaelWave369/LabelFit/actions/workflows/ci.yml)
 
-**v0.3 — Real Input + Rule Foundations**
+**v0.4 — Modular Rule Engine**
 
 > **Food that fits you.**
 >
 > **LabelFit evaluates fit, not food morality.**
 
-LabelFit is a local-first personalized food-label reasoning engine. The same product can legitimately produce different verdicts for different people based on allergies, goals, preferences, evidence completeness, and configured strictness.
+LabelFit is a local-first personalized food-label reasoning engine. The same food can legitimately produce different verdicts for different people because profiles, evidence, thresholds, and uncertainty differ.
 
-## Core rules
+## Core contract
 
-- User-facing verdicts are **GOOD FIT / CAUTION / DOESN'T FIT / CAN'T CONFIRM**.
-- Missing critical information yields **CAN'T CONFIRM**, never unjustified confidence.
-- Deterministic rules decide. Explanations explain.
-- Authored prose or AI output cannot override safety-critical verdicts.
-- Formulations change. The physical label remains authoritative.
-- No universal health score or food-morality meter.
+- Verdict vocabulary: **GOOD FIT / CAUTION / DOESN'T FIT / CAN'T CONFIRM**
+- Deterministic rule modules decide; explanation code cannot override them
+- Missing critical evidence stays visible instead of becoming an unjustified green result
+- Product facts carry provenance and decision receipts
+- Household mode preserves each person's result before computing an aggregate
+- Better Fit requires actual outcome improvement plus category relevance
+- Profile settings that are not implemented are explicitly reported as **not evaluated**
+- Formulations change; the physical label remains authoritative
 
-## Architecture
+## v0.4 rule modules
 
-```text
-INPUT
-  ↓
-PRODUCT NORMALIZATION + INGREDIENT MATCHING
-  ↓
-INGREDIENT / NUTRIENT MODEL
-  ↓
-EVIDENCE + PROVENANCE
-  ↓
-PROFILE RULES
-  ↓
-DETERMINISTIC VERDICT ENGINE
-  ↓
-EXPLANATION + DECISION TRACE
-  ↓
-UI + BETTER-FIT RANKING
-```
+- `allergy.v1`
+- `added-sugar.v1`
+- `sodium.v1`
+- `caffeine.v1`
+- `avoid-flags.v1`
+- `completeness.v1`
 
-## v0.3 capabilities
+The registry is extensible without turning the verdict orchestrator into one giant conditional block.
 
-- Personalized profiles and household fit
-- Allergy severity preserved as mild / moderate / severe
-- Real pasted-ingredient parsing against the bundled matcher
-- Ingredient deep dives with evidence strength
-- Explainable decision traces
-- Product comparison
-- Category-aware **Find a Better Fit**
-- Formulation history
-- Local-first storage
-- Mobile-first UI
+## Current capabilities
 
-The verified v0.3 source snapshot contains **159 ingredient knowledge entries, 2,008 aliases, 226 ingredient/additive codes, 26 demo products, and 8 demo profiles**.
+- personalized profiles
+- strict and standard allergy handling
+- runtime ingredient parsing with guarded look-alikes
+- raw pasted-label input
+- added sugar, sodium, caffeine, and avoid-list rules
+- provenance-aware Why chains
+- machine-readable decision receipts
+- household aggregation
+- category-aware Better Fit
+- explicit evaluation coverage
+- mobile-friendly static UI
+- deterministic CI regression suite
 
-## Build
+## Development
+
+No bundler is required. Open `index.html` directly or serve the repository with any static server.
+
+Run the regression suites with Node:
 
 ```bash
-python3 scripts/build_data.py
-python3 scripts/run_tests.py
+node tests/core.test.js
+node tests/matcher.test.js
+node tests/evidence.test.js
+node tests/household.test.js
+node tests/rules.test.js
 ```
 
 ## Safety
@@ -66,11 +66,5 @@ python3 scripts/run_tests.py
 LabelFit assists with food decisions. It is not medical diagnosis and must not promise that a product is “100% safe.” Prefer language such as:
 
 > No peanut conflict detected in the available product information.
-
-## Status
-
-This repository is being initialized from the verified LabelFit v0.3 source bundle. CI and Pages scaffolding are included in PR #1; the application source bundle is preserved separately until the GitHub connector can ingest the local file tree without truncation.
-
-## Disclaimer
 
 Demo data is fictional and not reviewed by a dietitian. Not medical advice.
