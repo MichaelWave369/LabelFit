@@ -7,6 +7,7 @@
   var select = document.getElementById("profile-select");
   var panel = document.getElementById("computed-result");
   var why = document.getElementById("why-chain");
+  var receipt = document.getElementById("decision-receipt");
   var paste = document.getElementById("ingredient-paste");
   var pasteButton = document.getElementById("check-paste");
   var pasteResult = document.getElementById("paste-result");
@@ -47,6 +48,9 @@
       return '<li><span>' + esc(step.layer) + '</span><strong>' + esc(step.value) +
         '</strong><small>' + esc(step.detail) + '</small></li>';
     }).join("");
+    if (receipt) {
+      receipt.textContent = JSON.stringify(LF.evidence.receipt(result, LF.demo.product, p), null, 2);
+    }
   }
 
   function renderPaste() {

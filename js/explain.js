@@ -12,15 +12,23 @@
     var chain = [
       { layer: "VERDICT", value: result.verdict, detail: result.primaryReason }
     ];
+
     if (top) {
+      var prov = LF.evidence.provenanceForRule(product, top);
       chain.push({ layer: "RULE", value: top.ruleId, detail: top.text });
-      chain.push({ layer: "PRODUCT FACT", value: top.fact || "—", detail: top.kind });
+      chain.push({ layer: "OBSERVED FACT", value: top.fact || "—", detail: prov.fieldPath });
+      chain.push({
+        layer: "SOURCE",
+        value: prov.source.title,
+        detail: prov.source.authority + (prov.source.observedAt ? " · " + prov.source.observedAt : "")
+      });
+      chain.push({
+        layer: "DECISION BASIS",
+        value: prov.basis.title,
+        detail: prov.basis.strength + " · " + prov.basis.note
+      });
     }
-    chain.push({
-      layer: "SOURCE",
-      value: product.source,
-      detail: product.lastVerified ? "Last verified " + product.lastVerified : "Demo source"
-    });
+
     chain.push({
       layer: "UNCERTAINTY",
       value: result.confidence,

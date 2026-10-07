@@ -18,7 +18,9 @@
       incomplete: !!p.incomplete,
       confidence: p.confidence || (p.incomplete ? "LIMITED" : "HIGH"),
       source: p.source || "Demo catalog",
-      lastVerified: p.lastVerified || null
+      lastVerified: p.lastVerified || null,
+      inputSource: p.inputSource || null,
+      provenance: p.provenance || { sources: {}, fields: {} }
     };
   }
 

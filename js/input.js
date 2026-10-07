@@ -6,6 +6,7 @@
   function fromIngredientText(text) {
     var raw = String(text || "").trim();
     var ingredients = LF.ingredients.parse(raw);
+    var sourceId = "src.input.paste";
     return {
       id: "paste-" + Date.now(),
       brand: "Pasted label",
@@ -21,7 +22,26 @@
       source: "User-pasted ingredient text",
       lastVerified: null,
       inputSource: "paste",
-      rawIngredientText: raw
+      rawIngredientText: raw,
+      provenance: {
+        sources: {
+          "src.input.paste": {
+            id: sourceId,
+            title: "User-pasted ingredient text",
+            type: "user_input",
+            authority: "USER-PROVIDED OBSERVATION",
+            observedAt: null,
+            note: "Ingredient text pasted locally in this session; package declarations and nutrition facts were not captured."
+          }
+        },
+        fields: {
+          "product": sourceId,
+          "ingredients": sourceId,
+          "contains": sourceId,
+          "mayContain": sourceId,
+          "completeness": sourceId
+        }
+      }
     };
   }
 
