@@ -5,6 +5,7 @@ require("../js/ingredient-matcher.js");
 require("../js/input.js");
 require("../js/normalize.js");
 require("../js/profiles.js");
+require("../js/rules.js");
 require("../js/verdict.js");
 
 const LF = global.LabelFit;
