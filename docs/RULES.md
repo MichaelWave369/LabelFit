@@ -37,6 +37,10 @@ The verdict orchestrator does not contain domain-specific food logic. It:
 | `added-sugar.v1` | `addedSugarGoal` |
 | `sodium.v1` | `sodiumLimitPerServing` |
 | `caffeine.v1` | `caffeineLimitMg` |
+| `dietary-restrictions.v1` | `dietaryRestrictions` (vegan, vegetarian) |
+| `intolerances.v1` | `intolerances` (lactose, gluten) |
+| `ingredient-avoid.v1` | `ingredientAvoids` |
+| `processing-preference.v1` | `processingPreferences` (minimal) |
 | `avoid-flags.v1` | `avoidFlags` |
 | `completeness.v1` | none |
 
@@ -53,3 +57,14 @@ They do not silently alter or imply a verdict.
 For example, if a profile contains `dietaryRestrictions: ["vegan"]` before a dietary-restriction module exists, LabelFit may still compute other rules, but the result explicitly says that `dietaryRestrictions` was **not evaluated**.
 
 This boundary is intentional: unsupported settings must remain visible rather than being treated as implemented.
+
+
+## Value-level coverage
+
+Some profile fields support a defined vocabulary. LabelFit reports configured values outside that vocabulary in:
+
+```js
+result.coverage.unsupportedValues
+```
+
+For example, `dietaryRestrictions: ["kosher"]` is visible as unsupported until a kosher rule module exists. The field being implemented does not imply that every possible value is implemented.
