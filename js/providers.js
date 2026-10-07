@@ -11,6 +11,9 @@
       if (Object.prototype.hasOwnProperty.call(obs, field)) {
         throw new Error("Input provider may not assert decision field: " + field);
       }
+      if (obs.fields && Object.prototype.hasOwnProperty.call(obs.fields, field)) {
+        throw new Error("Input provider fields may not assert decision field: " + field);
+      }
     });
     if (!obs.schema) obs.schema = "labelfit.observation.v1";
     if (obs.schema !== "labelfit.observation.v1") throw new Error("Unsupported observation schema");
