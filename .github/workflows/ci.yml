@@ -38,6 +38,9 @@ jobs:
       - name: Test evidence and provenance
         run: node tests/evidence.test.js
 
+      - name: Test household and Better Fit
+        run: node tests/household.test.js
+
       - name: Check JavaScript syntax
         shell: bash
         run: |
