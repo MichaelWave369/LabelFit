@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101714">
+  <meta name="description" content="LabelFit evaluates how a food fits a person, household, and set of preferences using explainable rules and evidence.">
+  <title>LabelFit — Food that fits you</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="nav">
+      <a class="brand" href="./" aria-label="LabelFit home">
+        <span class="mark">LF</span>
+        <span>LabelFit</span>
+      </a>
+      <span class="version">v0.3</span>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">PERSONAL FOOD FIT ENGINE</p>
+      <h1>Food that <em>fits you.</em></h1>
+      <p class="lede">
+        LabelFit compares food information with a person’s allergies, goals,
+        preferences, household context, and available evidence. Same food,
+        different person, different fit.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/MichaelWave369/LabelFit">View the repository</a>
+        <a class="button" href="#principles">How it works</a>
+      </div>
+    </section>
+
+    <section class="verdict-demo" aria-label="Example personalized results">
+      <article class="product">
+        <div class="package">OAT + HONEY</div>
+        <div>
+          <p class="muted">Same sample product</p>
+          <h2>Different people, different fit.</h2>
+        </div>
+      </article>
+      <div class="profiles">
+        <article class="result danger">
+          <span class="avatar">J</span>
+          <div><strong>Jordan</strong><small>Severe peanut allergy</small></div>
+          <b>DOESN'T FIT</b>
+        </article>
+        <article class="result caution">
+          <span class="avatar">T</span>
+          <div><strong>Taylor</strong><small>Added-sugar goal</small></div>
+          <b>CAUTION</b>
+        </article>
+        <article class="result good">
+          <span class="avatar">M</span>
+          <div><strong>Morgan</strong><small>Sodium target</small></div>
+          <b>GOOD FIT</b>
+        </article>
+      </div>
+    </section>
+
+    <section id="principles" class="grid">
+      <article>
+        <span class="num">01</span>
+        <h3>Fit, not morality</h3>
+        <p>No universal health score. A verdict is about a product in relation to a specific profile.</p>
+      </article>
+      <article>
+        <span class="num">02</span>
+        <h3>Rules hold authority</h3>
+        <p>Deterministic rules decide. Explanations and future AI layers can clarify a result, not override it.</p>
+      </article>
+      <article>
+        <span class="num">03</span>
+        <h3>Uncertainty stays visible</h3>
+        <p>Missing critical information becomes CAN'T CONFIRM instead of magically turning green.</p>
+      </article>
+    </section>
+
+    <footer>
+      <strong>LabelFit</strong>
+      <span>Personal fit • household context • evidence • uncertainty</span>
+      <small>Prototype software. Always check the physical label; formulations change.</small>
+    </footer>
+  </main>
+</body>
+</html>
