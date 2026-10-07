@@ -12,6 +12,9 @@
   var pasteButton = document.getElementById("check-paste");
   var pasteResult = document.getElementById("paste-result");
   var parsed = document.getElementById("parsed-ingredients");
+  var householdStatus = document.getElementById("household-status");
+  var householdMembers = document.getElementById("household-members");
+  var betterFitResults = document.getElementById("better-fit-results");
   if (!select || !panel || !why) return;
 
   LF.demo.profiles.forEach(function (p) {
@@ -53,6 +56,30 @@
     }
   }
 
+  function renderHousehold() {
+    if (!householdStatus || !householdMembers || !betterFitResults || !LF.household || !LF.compare) return;
+    var h = LF.household.evaluate(LF.demo.product, LF.demo.profiles);
+    householdStatus.textContent = h.status;
+    householdStatus.className = h.status === "FITS EVERYONE" ? "good-text" :
+      h.status === "NOT FOR EVERYONE" ? "danger-text" : "caution-text";
+
+    householdMembers.innerHTML = h.members.map(function (m) {
+      return '<div class="member-row ' + klass(m.result.verdict) + '">' +
+        '<span class="avatar">' + esc(m.profile.name.charAt(0)) + '</span>' +
+        '<div><strong>' + esc(m.profile.name) + '</strong><small>' + esc(m.result.primaryReason) + '</small></div>' +
+        '<b>' + esc(m.result.verdict) + '</b></div>';
+    }).join("");
+
+    var recs = LF.compare.betterFit(LF.demo.product, LF.demo.profiles, LF.demo.catalog, 2);
+    betterFitResults.innerHTML = recs.map(function (r, i) {
+      return '<article class="better-card">' +
+        '<span class="rank">#' + (i + 1) + '</span>' +
+        '<div><strong>' + esc(r.product.name) + '</strong><small>' + esc(r.reason) +
+        ' Household: ' + esc(r.household.status) + '.</small></div>' +
+        '<b>' + esc(r.household.status) + '</b></article>';
+    }).join("");
+  }
+
   function renderPaste() {
     if (!paste || !pasteResult || !parsed) return;
     var p = profile();
@@ -76,4 +103,5 @@
 
   select.value = LF.demo.profiles[0].id;
   render();
+  renderHousehold();
 })(typeof window !== "undefined" ? window : globalThis);
