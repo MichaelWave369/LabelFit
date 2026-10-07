@@ -5,6 +5,6 @@
   "description": "Personalized food-label reasoning engine",
   "scripts": {
     "verify": "python3 scripts/verify_repo.py",
-    "test": "node tests/core.test.js && node tests/matcher.test.js && node tests/evidence.test.js && node tests/household.test.js && node tests/rules.test.js"
+    "test": "node tests/core.test.js && node tests/matcher.test.js && node tests/evidence.test.js && node tests/household.test.js && node tests/rules.test.js && node tests/providers.test.js"
   }
 }

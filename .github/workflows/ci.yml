@@ -44,6 +44,9 @@ jobs:
       - name: Test modular rule engine
         run: node tests/rules.test.js
 
+      - name: Test input provider boundary
+        run: node tests/providers.test.js
+
       - name: Check JavaScript syntax
         shell: bash
         run: |

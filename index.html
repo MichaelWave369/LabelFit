@@ -60,6 +60,14 @@
         <button id="check-paste" type="button">Check this label</button>
         <div id="paste-result" aria-live="polite"></div>
         <div id="parsed-ingredients" class="tokens" aria-label="Parsed ingredients"></div>
+        <div class="provider-demos">
+          <p class="muted">EVIDENCE-ONLY PROVIDERS</p>
+          <div class="provider-actions">
+            <button id="demo-barcode" type="button" class="secondary-button">Demo barcode</button>
+            <button id="demo-ocr" type="button" class="secondary-button">Demo OCR</button>
+          </div>
+          <div id="provider-result" class="provider-result" aria-live="polite"></div>
+        </div>
       </div>
     </section>
 
@@ -96,6 +104,7 @@
   </main>
 
   <script src="js/ingredient-matcher.js"></script>
+  <script src="js/providers.js"></script>
   <script src="js/input.js"></script>
   <script src="js/normalize.js"></script>
   <script src="js/profiles.js"></script>

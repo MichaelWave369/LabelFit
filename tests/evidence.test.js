@@ -2,6 +2,7 @@ const assert = require("assert");
 
 global.LabelFit = {};
 require("../js/ingredient-matcher.js");
+require("../js/providers.js");
 require("../js/input.js");
 require("../js/normalize.js");
 require("../js/profiles.js");
@@ -45,7 +46,7 @@ const pasted = LF.input.fromIngredientText("Oats, peanut butter, salt");
 const pastedResult = LF.verdict.evaluate(pasted, jordan);
 const pastedReceipt = LF.evidence.receipt(pastedResult, pasted, jordan);
 assert.equal(pastedResult.verdict, "DOESN'T FIT");
-assert(pastedReceipt.rules.some(r => r.sourceId === "src.input.paste"));
+assert(pastedReceipt.rules.some(r => r.sourceId === "src.provider.paste.local.v1"));
 assert(pastedReceipt.rules.some(r => r.basisId === "basis.allergy.ingredient.v1"));
 
 const why = LF.explain.why(j, product, jordan);
