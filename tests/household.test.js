@@ -3,6 +3,7 @@ const assert = require("assert");
 global.LabelFit = {};
 require("../js/normalize.js");
 require("../js/profiles.js");
+require("../js/rules.js");
 require("../js/verdict.js");
 require("../js/household.js");
 require("../js/compare.js");
