@@ -15,6 +15,7 @@
       mayContain: p.mayContain || p.may_contain || { status: "unknown", items: [] },
       facts: p.facts || {},
       flags: p.flags || [],
+      attributes: p.attributes || {},
       incomplete: !!p.incomplete,
       confidence: p.confidence || (p.incomplete ? "LIMITED" : "HIGH"),
       source: p.source || "Demo catalog",

@@ -29,7 +29,11 @@
         };
       }),
       confidence: product.confidence,
-      coverage: LF.profiles.coverage(profile || {}, LF.rules.supportedProfileFields())
+      coverage: LF.profiles.coverage(
+        profile || {},
+        LF.rules.supportedProfileFields(),
+        LF.rules.supportedProfileValues()
+      )
     };
   }
 

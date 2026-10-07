@@ -14,6 +14,10 @@
     };
   }
 
+  function key(v) {
+    return String(v || "").trim().toLowerCase().replace(/[\s-]+/g, "_");
+  }
+
   var modules = [];
 
   function register(module) {
@@ -30,10 +34,7 @@
     id: "allergy.v1",
     profileFields: ["allergies", "strictnessLevel", "strict"],
     evaluate: function (ctx) {
-      var out = [];
-      var product = ctx.product;
-      var groups = ctx.ingredientGroups;
-      var profile = ctx.profile;
+      var out = [], product = ctx.product, groups = ctx.ingredientGroups, profile = ctx.profile;
       var allergies = LF.profiles.allergyGroups(profile);
       var strict = LF.profiles.isStrict(profile);
 
@@ -125,6 +126,92 @@
   });
 
   register({
+    id: "dietary-restrictions.v1",
+    profileFields: ["dietaryRestrictions"],
+    supportedValues: { dietaryRestrictions: ["vegan", "vegetarian"] },
+    evaluate: function (ctx) {
+      var out = [], dietary = (ctx.product.attributes && ctx.product.attributes.dietary) || {};
+      (ctx.profile.dietaryRestrictions || []).forEach(function (raw) {
+        var restriction = key(raw);
+        if (restriction !== "vegan" && restriction !== "vegetarian") return;
+        var value = dietary[restriction];
+        if (value === false) {
+          out.push(event("dietary-restrictions.v1", "dietary.conflict", "DOESN'T FIT",
+            "Product does not meet this profile's " + restriction + " restriction.",
+            restriction + "=false", "dietary"));
+        } else if (value == null) {
+          out.push(event("dietary-restrictions.v1", "dietary.unknown", "CAN'T CONFIRM",
+            "The product's " + restriction + " status is not confirmed.",
+            restriction + "=unknown", "missing"));
+        }
+      });
+      return out;
+    }
+  });
+
+  register({
+    id: "intolerances.v1",
+    profileFields: ["intolerances"],
+    supportedValues: { intolerances: ["lactose", "gluten"] },
+    evaluate: function (ctx) {
+      var out = [], data = (ctx.product.attributes && ctx.product.attributes.intolerances) || {};
+      (ctx.profile.intolerances || []).forEach(function (raw) {
+        var intolerance = key(raw);
+        if (intolerance !== "lactose" && intolerance !== "gluten") return;
+        var value = data[intolerance];
+        if (value === true) {
+          out.push(event("intolerances.v1", "intolerance.present", "DOESN'T FIT",
+            "Product is marked as containing " + intolerance + ".",
+            intolerance + "=present", "intolerance"));
+        } else if (value == null) {
+          out.push(event("intolerances.v1", "intolerance.unknown", "CAN'T CONFIRM",
+            "The product's " + intolerance + " status is not confirmed.",
+            intolerance + "=unknown", "missing"));
+        }
+      });
+      return out;
+    }
+  });
+
+  register({
+    id: "ingredient-avoid.v1",
+    profileFields: ["ingredientAvoids"],
+    evaluate: function (ctx) {
+      var out = [];
+      (ctx.profile.ingredientAvoids || []).forEach(function (raw) {
+        var needle = key(raw);
+        var hits = (ctx.product.ingredients || []).filter(function (ingredient) {
+          return key(ingredient.text).indexOf(needle) >= 0;
+        });
+        if (needle && hits.length) {
+          out.push(event("ingredient-avoid.v1", "ingredient.avoid", "DOESN'T FIT",
+            "Ingredient list matches an ingredient this profile avoids.",
+            "Avoid " + raw + "; found " + hits.map(function (x) { return x.text; }).join(", "), "avoid"));
+        }
+      });
+      return out;
+    }
+  });
+
+  register({
+    id: "processing-preference.v1",
+    profileFields: ["processingPreferences"],
+    supportedValues: { processingPreferences: ["minimal"] },
+    evaluate: function (ctx) {
+      var prefs = (ctx.profile.processingPreferences || []).map(key);
+      if (prefs.indexOf("minimal") < 0) return [];
+      var level = ctx.product.attributes && ctx.product.attributes.processingLevel;
+      if (level == null) return [event("processing-preference.v1", "processing.unknown", "CAN'T CONFIRM",
+        "Processing level is not confirmed for this product.",
+        "processingLevel=unknown", "missing")];
+      if (level === "high") return [event("processing-preference.v1", "processing.high", "CAUTION",
+        "Product is marked as highly processed while this profile prefers minimal processing.",
+        "processingLevel=high", "processing")];
+      return [];
+    }
+  });
+
+  register({
     id: "avoid-flags.v1",
     profileFields: ["avoidFlags"],
     evaluate: function (ctx) {
@@ -174,10 +261,25 @@
     return fields.sort();
   }
 
+  function supportedProfileValues() {
+    var values = {};
+    modules.forEach(function (m) {
+      Object.keys(m.supportedValues || {}).forEach(function (field) {
+        values[field] = values[field] || [];
+        m.supportedValues[field].forEach(function (value) {
+          if (values[field].indexOf(value) < 0) values[field].push(value);
+        });
+      });
+    });
+    Object.keys(values).forEach(function (field) { values[field].sort(); });
+    return values;
+  }
+
   LF.rules = {
     register: register,
     run: run,
     list: function () { return modules.slice(); },
-    supportedProfileFields: supportedProfileFields
+    supportedProfileFields: supportedProfileFields,
+    supportedProfileValues: supportedProfileValues
   };
 })(typeof window !== "undefined" ? window : globalThis);

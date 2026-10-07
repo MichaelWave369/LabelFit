@@ -27,6 +27,10 @@ LabelFit is a local-first personalized food-label reasoning engine. The same foo
 - `added-sugar.v1`
 - `sodium.v1`
 - `caffeine.v1`
+- `dietary-restrictions.v1`
+- `intolerances.v1`
+- `ingredient-avoid.v1`
+- `processing-preference.v1`
 - `avoid-flags.v1`
 - `completeness.v1`
 
@@ -38,12 +42,12 @@ The registry is extensible without turning the verdict orchestrator into one gia
 - strict and standard allergy handling
 - runtime ingredient parsing with guarded look-alikes
 - raw pasted-label input
-- added sugar, sodium, caffeine, and avoid-list rules
+- added sugar, sodium, caffeine, dietary-restriction, intolerance, ingredient-avoid, processing-preference, and avoid-list rules
 - provenance-aware Why chains
 - machine-readable decision receipts
 - household aggregation
 - category-aware Better Fit
-- explicit evaluation coverage
+- explicit field-level and value-level evaluation coverage
 - mobile-friendly static UI
 - deterministic CI regression suite
 

@@ -95,6 +95,55 @@
       strength: "CONSERVATIVE UNCERTAINTY RULE",
       note: "A caffeine-limit profile cannot be fully evaluated when caffeine data is missing."
     },
+    "dietary.conflict": {
+      id: "basis.dietary.conflict.v1",
+      title: "Dietary restriction conflict",
+      type: "profile_restriction",
+      strength: "USER-CONFIGURED RESTRICTION",
+      note: "A confirmed product dietary status conflicts with the configured restriction."
+    },
+    "dietary.unknown": {
+      id: "basis.dietary.unknown.v1",
+      title: "Unknown dietary-status rule",
+      type: "uncertainty_policy",
+      strength: "CONSERVATIVE UNCERTAINTY RULE",
+      note: "A dietary restriction cannot be confirmed when the product status is unknown."
+    },
+    "intolerance.present": {
+      id: "basis.intolerance.present.v1",
+      title: "Intolerance conflict",
+      type: "profile_restriction",
+      strength: "USER-CONFIGURED RESTRICTION",
+      note: "A confirmed product intolerance marker conflicts with the configured intolerance."
+    },
+    "intolerance.unknown": {
+      id: "basis.intolerance.unknown.v1",
+      title: "Unknown intolerance-status rule",
+      type: "uncertainty_policy",
+      strength: "CONSERVATIVE UNCERTAINTY RULE",
+      note: "An intolerance setting cannot be confirmed when product status is unknown."
+    },
+    "ingredient.avoid": {
+      id: "basis.ingredient.avoid.v1",
+      title: "Ingredient avoid-list rule",
+      type: "profile_preference",
+      strength: "USER-CONFIGURED PREFERENCE",
+      note: "A normalized ingredient string matches a configured ingredient avoid."
+    },
+    "processing.high": {
+      id: "basis.processing.high.v1",
+      title: "Minimal-processing preference rule",
+      type: "profile_preference",
+      strength: "USER-CONFIGURED PREFERENCE",
+      note: "A high processing level triggers caution for a minimal-processing preference."
+    },
+    "processing.unknown": {
+      id: "basis.processing.unknown.v1",
+      title: "Unknown processing-level rule",
+      type: "uncertainty_policy",
+      strength: "CONSERVATIVE UNCERTAINTY RULE",
+      note: "A processing preference cannot be confirmed when processing level is unknown."
+    },
     "avoid.flag": {
       id: "basis.avoid.flag.v1",
       title: "Profile avoid-list rule",
@@ -139,6 +188,10 @@
     if (ruleId.indexOf("sugar.") === 0) return "facts.added_sugar_g";
     if (ruleId.indexOf("sodium.") === 0) return "facts.sodium_mg";
     if (ruleId.indexOf("caffeine.") === 0) return "facts.caffeine_mg";
+    if (ruleId.indexOf("dietary.") === 0) return "attributes.dietary";
+    if (ruleId.indexOf("intolerance.") === 0) return "attributes.intolerances";
+    if (ruleId === "ingredient.avoid") return "ingredients";
+    if (ruleId.indexOf("processing.") === 0) return "attributes.processingLevel";
     if (ruleId === "avoid.flag") return "flags";
     if (ruleId === "product.incomplete") return "completeness";
     return "product";
@@ -168,7 +221,7 @@
       profile: { id: profile.id || "unknown", name: profile.name || "Unknown" },
       verdict: result.verdict,
       confidence: result.confidence,
-      coverage: result.coverage || { evaluated: [], notEvaluated: [], complete: true },
+      coverage: result.coverage || { evaluated: [], notEvaluated: [], unsupportedValues: [], complete: true },
       rules: (result.rules || []).map(function (rule) {
         var prov = provenanceForRule(product, rule);
         return {

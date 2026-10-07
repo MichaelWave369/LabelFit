@@ -56,8 +56,16 @@
       coverage.className = "coverage " + (result.coverage.complete ? "coverage-ok" : "coverage-warn");
       coverage.innerHTML = result.coverage.complete
         ? '<strong>Profile coverage: complete</strong><span>All configured settings shown here are evaluated.</span>'
-        : '<strong>Profile coverage: incomplete</strong><span>Not evaluated: ' +
-          result.coverage.notEvaluated.map(esc).join(", ") + '</span>';
+        : '<strong>Profile coverage: incomplete</strong><span>' +
+          (result.coverage.notEvaluated.length
+            ? 'Not evaluated fields: ' + result.coverage.notEvaluated.map(esc).join(", ") + '. '
+            : '') +
+          (result.coverage.unsupportedValues && result.coverage.unsupportedValues.length
+            ? 'Unsupported values: ' + result.coverage.unsupportedValues.map(function (x) {
+                return esc(x.field) + '=' + esc(x.value);
+              }).join(", ") + '.'
+            : '') +
+          '</span>';
     }
     if (receipt) {
       receipt.textContent = JSON.stringify(LF.evidence.receipt(result, LF.demo.product, p), null, 2);
