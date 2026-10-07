@@ -4,6 +4,7 @@ global.LabelFit = {};
 require("../js/normalize.js");
 require("../js/profiles.js");
 require("../js/verdict.js");
+require("../js/evidence.js");
 require("../js/explain.js");
 require("../js/demo-data.js");
 
