@@ -2,6 +2,7 @@ const assert = require("assert");
 
 global.LabelFit = {};
 require("../js/ingredient-matcher.js");
+require("../js/providers.js");
 require("../js/input.js");
 require("../js/normalize.js");
 require("../js/profiles.js");
