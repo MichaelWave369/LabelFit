@@ -221,7 +221,7 @@
       profile: { id: profile.id || "unknown", name: profile.name || "Unknown" },
       verdict: result.verdict,
       confidence: result.confidence,
-      coverage: result.coverage || { evaluated: [], notEvaluated: [], complete: true },
+      coverage: result.coverage || { evaluated: [], notEvaluated: [], unsupportedValues: [], complete: true },
       rules: (result.rules || []).map(function (rule) {
         var prov = provenanceForRule(product, rule);
         return {
