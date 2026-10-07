@@ -44,6 +44,20 @@
       </div>
     </section>
 
+    <section class="paste-lab" aria-labelledby="paste-title">
+      <div>
+        <p class="eyebrow">REAL INPUT PATH</p>
+        <h2 id="paste-title">Paste an ingredient list.</h2>
+        <p class="muted">LabelFit parses the text locally, identifies allergen relationships, then sends the normalized product through the same deterministic verdict engine.</p>
+      </div>
+      <div class="paste-card">
+        <textarea id="ingredient-paste" rows="5" spellcheck="false">Oats, sugar, peanut butter, soy lecithin, salt</textarea>
+        <button id="check-paste" type="button">Check this label</button>
+        <div id="paste-result" aria-live="polite"></div>
+        <div id="parsed-ingredients" class="tokens" aria-label="Parsed ingredients"></div>
+      </div>
+    </section>
+
     <section id="principles" class="grid">
       <article><span class="num">01</span><h3>Fit, not morality</h3><p>No universal health score. A verdict is about a product in relation to a specific profile.</p></article>
       <article><span class="num">02</span><h3>Rules hold authority</h3><p>The verdict engine decides. Explanation code runs afterward and cannot override the result.</p></article>
@@ -57,6 +71,8 @@
     </footer>
   </main>
 
+  <script src="js/ingredient-matcher.js"></script>
+  <script src="js/input.js"></script>
   <script src="js/normalize.js"></script>
   <script src="js/profiles.js"></script>
   <script src="js/verdict.js"></script>

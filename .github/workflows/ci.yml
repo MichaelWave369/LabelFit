@@ -32,6 +32,9 @@ jobs:
       - name: Test deterministic core
         run: node tests/core.test.js
 
+      - name: Test runtime ingredient matcher
+        run: node tests/matcher.test.js
+
       - name: Check JavaScript syntax
         shell: bash
         run: |
