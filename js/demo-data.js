@@ -32,6 +32,9 @@
         mayContain: ing,
         "facts.added_sugar_g": nut,
         "facts.sodium_mg": nut,
+        "attributes.dietary": ing,
+        "attributes.intolerances": ing,
+        "attributes.processingLevel": ing,
         completeness: ing
       }
     };
@@ -51,6 +54,11 @@
       contains: { status: "declared", items: [{ group: "soy", label: "Soy" }] },
       mayContain: { status: "declared", items: [{ group: "peanut", label: "Peanuts" }] },
       facts: { added_sugar_g: 7, sodium_mg: 120 },
+      attributes: {
+        dietary: { vegan: false, vegetarian: true },
+        intolerances: { lactose: false, gluten: false },
+        processingLevel: "moderate"
+      },
       incomplete: false,
       confidence: "HIGH",
       source: "Fictional demo package label",
@@ -70,6 +78,11 @@
       contains: { status: "declared", items: [] },
       mayContain: { status: "declared", items: [] },
       facts: { added_sugar_g: 4, sodium_mg: 85 },
+      attributes: {
+        dietary: { vegan: true, vegetarian: true },
+        intolerances: { lactose: false, gluten: false },
+        processingLevel: "minimal"
+      },
       incomplete: false,
       confidence: "HIGH",
       source: "Fictional demo package label",
@@ -88,6 +101,11 @@
       contains: { status: "declared", items: [] },
       mayContain: { status: "declared", items: [] },
       facts: { added_sugar_g: 8, sodium_mg: 95 },
+      attributes: {
+        dietary: { vegan: true, vegetarian: true },
+        intolerances: { lactose: false, gluten: false },
+        processingLevel: "moderate"
+      },
       incomplete: false,
       confidence: "HIGH",
       source: "Fictional demo package label",
@@ -103,6 +121,11 @@
       contains: { status: "declared", items: [] },
       mayContain: { status: "declared", items: [] },
       facts: { added_sugar_g: 0, sodium_mg: 15 },
+      attributes: {
+        dietary: { vegan: true, vegetarian: true },
+        intolerances: { lactose: false, gluten: false },
+        processingLevel: "minimal"
+      },
       incomplete: false,
       confidence: "HIGH",
       source: "Fictional demo package label",
@@ -121,6 +144,11 @@
       contains: { status: "declared", items: [] },
       mayContain: { status: "declared", items: [] },
       facts: { added_sugar_g: 2, sodium_mg: 280 },
+      attributes: {
+        dietary: { vegan: true, vegetarian: true },
+        intolerances: { lactose: false, gluten: false },
+        processingLevel: "minimal"
+      },
       incomplete: false,
       confidence: "HIGH",
       source: "Fictional demo package label",
