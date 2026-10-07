@@ -1,0 +1,9 @@
+{
+  "name": "labelfit",
+  "private": true,
+  "version": "0.3.0",
+  "description": "Personalized food-label reasoning engine",
+  "scripts": {
+    "verify": "python3 scripts/verify_repo.py"
+  }
+}
