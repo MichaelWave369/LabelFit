@@ -42,6 +42,7 @@ The registry is extensible without turning the verdict orchestrator into one gia
 - strict and standard allergy handling
 - runtime ingredient parsing with guarded look-alikes
 - raw pasted-label input
+- evidence-only provider boundary for paste, barcode, and OCR adapters
 - added sugar, sodium, caffeine, dietary-restriction, intolerance, ingredient-avoid, processing-preference, and avoid-list rules
 - provenance-aware Why chains
 - machine-readable decision receipts
@@ -63,6 +64,7 @@ node tests/matcher.test.js
 node tests/evidence.test.js
 node tests/household.test.js
 node tests/rules.test.js
+node tests/providers.test.js
 ```
 
 ## Safety
