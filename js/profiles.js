@@ -29,21 +29,37 @@
     return value !== "";
   }
 
-  function coverage(profile, supportedFields) {
+  function coverage(profile, supportedFields, supportedValues) {
     var supported = {};
     (supportedFields || []).forEach(function (f) { supported[f] = true; });
-    var evaluated = [], notEvaluated = [];
+    var evaluated = [], notEvaluated = [], unsupportedValues = [];
 
     Object.keys(profile || {}).forEach(function (field) {
       if (META_FIELDS.indexOf(field) >= 0 || !isConfigured(profile[field])) return;
-      if (supported[field]) evaluated.push(field);
-      else notEvaluated.push(field);
+      if (!supported[field]) {
+        notEvaluated.push(field);
+        return;
+      }
+
+      evaluated.push(field);
+      var allowed = supportedValues && supportedValues[field];
+      if (allowed && Array.isArray(profile[field])) {
+        profile[field].forEach(function (raw) {
+          var value = String(raw || "").trim().toLowerCase().replace(/[\s-]+/g, "_");
+          if (allowed.indexOf(value) < 0) {
+            unsupportedValues.push({ field: field, value: raw });
+          }
+        });
+      }
     });
 
     return {
       evaluated: evaluated.sort(),
       notEvaluated: notEvaluated.sort(),
-      complete: notEvaluated.length === 0
+      unsupportedValues: unsupportedValues.sort(function (a, b) {
+        return (a.field + ":" + a.value).localeCompare(b.field + ":" + b.value);
+      }),
+      complete: notEvaluated.length === 0 && unsupportedValues.length === 0
     };
   }
 
