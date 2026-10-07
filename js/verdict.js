@@ -37,11 +37,6 @@
           "Ingredient list contains " + ingredientHits.join(", ") + ".",
           "Detected " + group + " ingredient; severity=" + severity,
           "allergen");
-      } else if (product.contains.status === "unknown") {
-        add(rules, "allergy.missing", "CAN'T CONFIRM",
-          "Allergen statement was not captured, so this profile cannot be confirmed.",
-          "Allergen statement status: unknown",
-          "missing");
       } else if (may.length && strict) {
         add(rules, "allergy.may.strict", "DOESN'T FIT",
           "A may-contain statement conflicts with strict allergy mode.",
@@ -52,6 +47,11 @@
           "The label has a may-contain statement for this profile.",
           "May contain: " + may.map(function (x) { return x.label || group; }).join(", "),
           "allergen");
+      } else if (product.contains.status === "unknown") {
+        add(rules, "allergy.missing", "CAN'T CONFIRM",
+          "Allergen statement was not captured, so this profile cannot be confirmed.",
+          "Allergen statement status: unknown",
+          "missing");
       }
     });
 
